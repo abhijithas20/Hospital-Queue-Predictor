@@ -10,6 +10,7 @@ df = pd.read_csv("data/hospital_data_clean.csv")
 print(f"✅ Data loaded: {df.shape[0]} rows")
 
 # ── 2. Define Features & Target ───────────────────────────
+# REPLACE THIS
 features = [
     "hospital_encoded",
     "department_encoded",
@@ -19,8 +20,7 @@ features = [
     "is_weekend",
     "is_festival",
     "temperature",
-    "is_rainy",
-    "patient_count"    # ← add this line
+    "is_rainy"
 ]
 
 X = df[features]
