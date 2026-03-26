@@ -148,8 +148,9 @@ with col1:
         st.error(f"🔴 **{predicted} minutes**\nLong wait — consider a different time.")
 
 with col2:
-    st.info(f" **{day_name}** at **{hour}:00**")
-
+   ampm = "AM" if hour < 12 else "PM"
+display_hour = hour if hour <= 12 else hour - 12
+st.info(f"**{day_name}** at **{display_hour}:00 {ampm}**")
 with col3:
     if is_festival:
         st.warning("🎉 Festival Day")
@@ -189,8 +190,10 @@ for i, day in enumerate(days):
 
 with col_week:
     st.markdown("####  Best Time This Week")
+    ampm_w = "AM" if best_hour_week < 12 else "PM"
+    disp_w = best_hour_week if best_hour_week <= 12 else best_hour_week - 12
     st.success(
-        f"**{best_day_week}** at **{best_hour_week}:00**\n\n"
+        f"**{best_day_week}** at **{disp_w}:00 {ampm_w}**\n\n"
         f"~{best_wait_week} min wait"
     )
 
@@ -207,19 +210,21 @@ for j, h in enumerate(range(8, 18)):
 
 with col_day:
     st.markdown(f"#### 🕐 Best Time on {day_name}")
+    ampm_d = "AM" if best_hour_day < 12 else "PM"
+    disp_d = best_hour_day if best_hour_day <= 12 else best_hour_day - 12
     if best_wait_day <= 20:
         st.success(
-            f"Visit at **{best_hour_day}:00**\n\n"
+            f"Visit at **{disp_d}:00 {ampm_d}**\n\n"
             f"~{best_wait_day} min wait 🟢"
         )
     elif best_wait_day <= 45:
         st.warning(
-            f"Visit at **{best_hour_day}:00**\n\n"
+            f"Visit at **{disp_d}:00 {ampm_d}**\n\n"
             f"~{best_wait_day} min wait 🟡"
         )
     else:
         st.error(
-            f"Visit at **{best_hour_day}:00**\n\n"
+            f"Visit at **{disp_d}:00 {ampm_d}**\n\n"
             f"~{best_wait_day} min wait 🔴"
         )
     st.caption(f"For {department} on {day_name}")
