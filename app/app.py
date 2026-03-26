@@ -73,8 +73,9 @@ department = st.sidebar.selectbox(" Department", [
 visit_date = st.sidebar.date_input("Visit Date")
 
 hour = st.sidebar.slider(" Arrival Time (Hour)", 8, 17, 10)
-st.sidebar.caption(f"Selected: {hour}:00")
-
+ampm = "AM" if hour < 12 else "PM"
+display_hour = hour if hour <= 12 else hour - 12
+st.sidebar.caption(f"Selected: {display_hour}:00 {ampm}")
 st.sidebar.divider()
 
 # ── Weather (Auto-fetch) ───────────────────────────────────
