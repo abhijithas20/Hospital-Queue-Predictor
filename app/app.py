@@ -54,7 +54,7 @@ st.markdown("*Predict waiting times at Indian government hospitals before you vi
 st.divider()
 
 # ── Sidebar Inputs ────────────────────────────────────────
-st.sidebar.header("🔧 Select Your Visit Details")
+st.sidebar.header(" Select Your Visit Details")
 
 hospital = st.sidebar.selectbox(" Hospital", [
     "General Hospital Kollam",
