@@ -15,7 +15,7 @@ from heatmap import generate_heatmap
 # ── Page Config ───────────────────────────────────────────
 st.set_page_config(
     page_title="Hospital Wait Time Predictor",
-    page_icon="🏥",
+    page_icon="",
     layout="wide"
 )
 
@@ -49,20 +49,20 @@ def load_festivals():
 festival_dates = load_festivals()
 
 # ── Header ────────────────────────────────────────────────
-st.title("🏥 Hospital OPD Wait Time Predictor")
+st.title(" Hospital OPD Wait Time Predictor")
 st.markdown("*Predict waiting times at Indian government hospitals before you visit*")
 st.divider()
 
 # ── Sidebar Inputs ────────────────────────────────────────
 st.sidebar.header("🔧 Select Your Visit Details")
 
-hospital = st.sidebar.selectbox("🏨 Hospital", [
+hospital = st.sidebar.selectbox(" Hospital", [
     "General Hospital Kollam",
     "District Hospital Ernakulam",
     "Taluk Hospital Thrissur"
 ])
 
-department = st.sidebar.selectbox("🩺 Department", [
+department = st.sidebar.selectbox(" Department", [
     "General OPD",
     "Cardiology",
     "Orthopaedics",
@@ -70,9 +70,9 @@ department = st.sidebar.selectbox("🩺 Department", [
     "Gynaecology"
 ])
 
-visit_date = st.sidebar.date_input("📅 Visit Date")
+visit_date = st.sidebar.date_input("Visit Date")
 
-hour = st.sidebar.slider("🕐 Arrival Time (Hour)", 8, 17, 10)
+hour = st.sidebar.slider(" Arrival Time (Hour)", 8, 17, 10)
 st.sidebar.caption(f"Selected: {hour}:00")
 
 st.sidebar.divider()
@@ -103,10 +103,10 @@ is_festival = 1 if date_str in festival_dates else 0
 month = visit_date.month
 
 if is_festival:
-    st.sidebar.warning("🎉 Festival day detected — expect higher wait times!")
+    st.sidebar.warning(" Festival day detected — expect higher wait times!")
 
 # ── Predict Button ────────────────────────────────────────
-st.subheader("📊 Your Predicted Wait Time")
+st.subheader(" Your Predicted Wait Time")
 
 day_name = visit_date.strftime("%A")
 
@@ -147,7 +147,7 @@ with col1:
         st.error(f"🔴 **{predicted} minutes**\nLong wait — consider a different time.")
 
 with col2:
-    st.info(f"📅 **{day_name}** at **{hour}:00**")
+    st.info(f" **{day_name}** at **{hour}:00**")
 
 with col3:
     if is_festival:
@@ -187,7 +187,7 @@ for i, day in enumerate(days):
             best_hour_week = h
 
 with col_week:
-    st.markdown("#### 📅 Best Time This Week")
+    st.markdown("####  Best Time This Week")
     st.success(
         f"**{best_day_week}** at **{best_hour_week}:00**\n\n"
         f"~{best_wait_week} min wait"
