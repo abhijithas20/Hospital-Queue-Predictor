@@ -19,6 +19,19 @@ st.set_page_config(
     layout="wide"
 )
 
+# ── Auto Train if model.pkl missing ───────────────────────
+def train_if_missing():
+    if not os.path.exists("model/model.pkl"):
+        st.info("⏳ First run detected — training model, please wait...")
+        import subprocess
+        subprocess.run(["python", "data/generate_data.py"])
+        subprocess.run(["python", "data/prepare_data.py"])
+        subprocess.run(["python", "model/train_model.py"])
+        st.success("✅ Model trained successfully!")
+        st.rerun()
+
+train_if_missing()
+
 # ── Load Model ────────────────────────────────────────────
 @st.cache_resource
 def load_model():
