@@ -4,7 +4,9 @@ A machine learning web app that predicts OPD waiting times at Indian government 
 
 ---
 
-> [🌐 Click here to open the live app](https://hospital-queue-predictor.streamlit.app/)
+## 🌐 Live Demo
+> Deployed on Streamlit Cloud — link coming soon
+
 ---
 
 ## 📌 What It Does

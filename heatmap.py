@@ -35,10 +35,7 @@ def generate_heatmap(hospital, department, month, model, temperature, is_rainy, 
             row.append(round(pred))
         wait_matrix.append(row)
 
-    hour_labels = [
-    f"{h if h <= 12 else h - 12}:00 {'AM' if h < 12 else 'PM'}"
-    for h in hours
-]
+    hour_labels = [f"{h}:00" for h in hours]
 
     fig = go.Figure(data=go.Heatmap(
         z=wait_matrix,
