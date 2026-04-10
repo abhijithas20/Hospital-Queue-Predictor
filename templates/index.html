@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital OPD Wait Time Predictor</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+    <div class="logo">OPD<span>Predict</span></div>
+    <button class="lang-toggle" onclick="toggleLang()" id="langBtn">മലയാളം</button>
+</nav>
+
+<!-- Hero -->
+<div class="hero">
+    <h1 data-en="Hospital OPD <span class='highlight'>Wait Time</span> Predictor"
+        data-ml="ആശുപത്രി OPD <span class='highlight'>കാത്തിരിക്കൽ സമയം</span> പ്രവചനം">
+        Hospital OPD <span style="color:var(--primary)">Wait Time</span> Predictor
+    </h1>
+    <p data-en="Predict waiting times at Indian government hospitals before you visit"
+       data-ml="സന്ദർശനത്തിന് മുമ്പ് ആശുപത്രി കാത്തിരിക്കൽ സമയം അറിയൂ">
+        Predict waiting times at Indian government hospitals before you visit
+    </p>
+</div>
+
+<!-- Main -->
+<div class="main-container">
+
+    <!-- Left Panel: Form -->
+    <div class="card">
+        <h2 data-en="Select Visit Details" data-ml="സന്ദർശന വിവരങ്ങൾ">Select Visit Details</h2>
+
+        <div class="form-group">
+            <label data-en="Hospital" data-ml="ആശുപത്രി">Hospital</label>
+            <select id="hospital">
+                <option>General Hospital Kollam</option>
+                <option>District Hospital Ernakulam</option>
+                <option>Taluk Hospital Thrissur</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label data-en="Department" data-ml="വിഭാഗം">Department</label>
+            <select id="department">
+                <option>General OPD</option>
+                <option>Cardiology</option>
+                <option>Orthopaedics</option>
+                <option>Paediatrics</option>
+                <option>Gynaecology</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label data-en="Visit Date" data-ml="സന്ദർശന തീയതി">Visit Date</label>
+            <input type="date" id="visitDate">
+        </div>
+
+        <div class="form-group">
+            <label data-en="Arrival Time" data-ml="എത്തിച്ചേരുന്ന സമയം">Arrival Time</label>
+            <input type="range" id="hourSlider" min="8" max="17" value="10"
+                   oninput="updateSlider(this.value)">
+            <div class="slider-label" id="sliderLabel">10:00 AM</div>
+        </div>
+
+        <!-- Weather -->
+        <button class="btn-outline" onclick="fetchWeather()"
+                data-en="Fetch Live Weather" data-ml="തത്സമയ കാലാവസ്ഥ">
+            Fetch Live Weather
+        </button>
+
+        <div class="weather-box" id="weatherBox">
+            <div>
+                <div style="font-size:0.8rem;color:var(--muted)" 
+                     data-en="Weather" data-ml="കാലാവസ്ഥ">Weather</div>
+                <div id="weatherDesc">--</div>
+            </div>
+            <div class="temp" id="weatherTemp">--°C</div>
+        </div>
+
+        <button class="btn-primary" onclick="predict()" 
+                style="margin-top:20px"
+                data-en="Predict Wait Time" data-ml="കാത്തിരിക്കൽ സമയം പ്രവചിക്കൂ">
+            Predict Wait Time
+        </button>
+    </div>
+
+    <!-- Right Panel: Results -->
+    <div>
+        <!-- Result -->
+        <div id="resultArea">
+            <div class="placeholder">
+                <svg width="64" height="64" fill="none" stroke="currentColor" 
+                     stroke-width="1.5" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polyline points="12 6 12 12 16 14"/>
+                </svg>
+                <span data-en="Fill in the details and click Predict" 
+                      data-ml="വിവരങ്ങൾ നൽകി പ്രവചിക്കൂ">
+                    Fill in the details and click Predict
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    Built by Abhijith AS &nbsp;|&nbsp; IZee Business School 
+    &nbsp;|&nbsp; BCA Final Year Project 2026
+</footer>
+
+<script src="/static/js/main.js"></script>
+</body>
+</html>
