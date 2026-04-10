@@ -9,6 +9,13 @@ from weather import get_weather
 
 app = Flask(__name__)
 
+# ── Auto Train if model missing ───────────────────────────
+if not os.path.exists("model/model.pkl"):
+    import subprocess
+    subprocess.run(["python", "data/generate_data.py"])
+    subprocess.run(["python", "data/prepare_data.py"])
+    subprocess.run(["python", "model/train_model.py"])
+
 # ── Load Model ────────────────────────────────────────────
 def load_model():
     with open("model/model.pkl", "rb") as f:
