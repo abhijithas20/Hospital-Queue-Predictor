@@ -54,6 +54,9 @@ CITY_MAP = {
 @app.route("/")
 def index():
     return render_template("index.html")
+@app.route("/heatmap")
+def heatmap():
+    return render_template("heatmap.html")
 
 @app.route("/predict", methods=["POST"])
 def predict():
