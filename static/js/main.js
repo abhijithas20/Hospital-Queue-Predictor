@@ -16,6 +16,7 @@ const T = {
         btnWeather: "Fetch Live Weather",
         btnPredict: "Predict Wait Time",
         linkHeatmap: "View Weekly Heatmap →",
+        linkCompare: "View Model Comparison →",
         placeholder: "Fill in the details and click Predict",
         statusLow: "Short wait — great time to visit!",
         statusMod: "Moderate wait — plan accordingly.",
@@ -44,6 +45,7 @@ const T = {
         btnWeather: "തത്സമയ കാലാവസ്ഥ",
         btnPredict: "കാത്തിരിക്കൽ സമയം പ്രവചിക്കൂ",
         linkHeatmap: "വാരാന്ത ഹീറ്റ്മാപ്പ് കാണൂ →",
+        linkCompare: "മോഡൽ താരതമ്യം കാണൂ →",
         placeholder: "വിവരങ്ങൾ നൽകി പ്രവചിക്കൂ",
         statusLow: "ഹ്രസ്വ കാത്തിരിപ്പ് — സന്ദർശിക്കാൻ നല്ല സമയം!",
         statusMod: "മിതമായ കാത്തിരിപ്പ് — ആസൂത്രണം ചെയ്യൂ.",
@@ -72,6 +74,7 @@ const T = {
         btnWeather: "लाइव मौसम देखें",
         btnPredict: "प्रतीक्षा समय जानें",
         linkHeatmap: "साप्ताहिक हीटमैप देखें →",
+        linkCompare: "मॉडल तुलना देखें →",
         placeholder: "विवरण भरें और भविष्यवाणी करें",
         statusLow: "कम प्रतीक्षा — जाने का अच्छा समय!",
         statusMod: "मध्यम प्रतीक्षा — योजना बनाएं।",
@@ -119,6 +122,7 @@ function setLang(lang) {
     document.getElementById("btn-weather").textContent = t.btnWeather;
     document.getElementById("btn-predict").textContent = t.btnPredict;
     document.getElementById("link-heatmap").textContent = t.linkHeatmap;
+    document.getElementById("link-compare").textContent = t.linkCompare;
     document.getElementById("placeholder-text").textContent = t.placeholder;
 }
 

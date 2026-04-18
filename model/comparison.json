@@ -1,0 +1,1 @@
+{"Random Forest": {"mae": 5.09, "r2": 0.9254}, "Decision Tree": {"mae": 5.56, "r2": 0.9058}, "Linear Regression": {"mae": 13.7, "r2": 0.463}}

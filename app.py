@@ -164,5 +164,22 @@ def save_feedback():
     return jsonify({"status": "saved"})
 
 # ── Run ───────────────────────────────────────────────────
+@app.route("/compare")
+def compare():
+    return render_template("compare.html")
+
+@app.route("/comparison_data")
+def comparison_data():
+    import json
+    try:
+        with open("model/comparison.json", "r") as f:
+            data = json.load(f)
+        return jsonify(data)
+    except:
+        return jsonify({
+            "Random Forest":    {"r2": 0.9254, "mae": 4.23},
+            "Decision Tree":    {"r2": 0.8102, "mae": 6.81},
+            "Linear Regression":{"r2": 0.5431, "mae": 12.44}
+        })
 if __name__ == "__main__":
     app.run(debug=True)
