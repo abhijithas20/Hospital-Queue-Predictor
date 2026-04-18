@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Heatmap — OPDPredict</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="logo">OPD<span>Predict</span></div>
+    <div class="lang-buttons">
+        <button class="lang-btn active" onclick="setLang('en')" id="btn-en">English</button>
+        <button class="lang-btn" onclick="setLang('ml')" id="btn-ml">മലയാളം</button>
+        <button class="lang-btn" onclick="setLang('hi')" id="btn-hi">हिन्दी</button>
+    </div>
+</nav>
+
+<div style="max-width:1100px;margin:0 auto;padding:32px 24px">
+
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:24px">
+        <a href="/" style="color:var(--primary);text-decoration:none;font-size:0.95rem">
+            ← Back
+        </a>
+        <h1 style="font-size:1.6rem;font-weight:700" id="page-title">
+            Weekly Wait Time Heatmap
+        </h1>
+    </div>
+
+    <!-- Filters -->
+    <div class="card" style="margin-bottom:24px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px">
+            <div class="form-group" style="margin:0">
+                <label id="lbl-hospital">Hospital</label>
+                <select id="hospital">
+                    <option>General Hospital Kollam</option>
+                    <option>District Hospital Ernakulam</option>
+                    <option>Taluk Hospital Thrissur</option>
+                </select>
+            </div>
+            <div class="form-group" style="margin:0">
+                <label id="lbl-dept">Department</label>
+                <select id="department">
+                    <option>General OPD</option>
+                    <option>Cardiology</option>
+                    <option>Orthopaedics</option>
+                    <option>Paediatrics</option>
+                    <option>Gynaecology</option>
+                </select>
+            </div>
+            <div class="form-group" style="margin:0">
+                <label id="lbl-month">Month</label>
+                <select id="month">
+                    <option value="1">January</option>
+                    <option value="2">February</option>
+                    <option value="3">March</option>
+                    <option value="4" selected>April</option>
+                    <option value="5">May</option>
+                    <option value="6">June</option>
+                    <option value="7">July</option>
+                    <option value="8">August</option>
+                    <option value="9">September</option>
+                    <option value="10">October</option>
+                    <option value="11">November</option>
+                    <option value="12">December</option>
+                </select>
+            </div>
+            <div style="display:flex;align-items:flex-end">
+                <button class="btn-primary" onclick="loadHeatmap()" id="btn-generate">
+                    Generate Heatmap
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Heatmap -->
+    <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;
+                    margin-bottom:16px">
+            <div>
+                <p style="color:var(--muted);font-size:0.9rem" id="heatmap-caption">
+                    Green = short wait &nbsp;·&nbsp; Yellow = moderate &nbsp;·&nbsp; Red = long wait
+                </p>
+            </div>
+            <div style="display:flex;gap:12px;font-size:0.85rem">
+                <span style="color:#2ecc71">● Low</span>
+                <span style="color:#f39c12">● Moderate</span>
+                <span style="color:#e74c3c">● High</span>
+            </div>
+        </div>
+        <div id="heatmapDiv" style="min-height:400px;display:flex;align-items:center;
+             justify-content:center;color:var(--muted)">
+            Select filters and click Generate Heatmap
+        </div>
+    </div>
+
+    <!-- Best Time Summary -->
+    <div id="summaryArea"></div>
+</div>
+
+<footer>
+    Built by Abhijith AS &nbsp;|&nbsp; IZee Business School
+    &nbsp;|&nbsp; BCA Final Year Project 2026
+</footer>
+
+<script>
+let currentLang = 'en';
+
+const HT = {
+    en: {
+        title: "Weekly Wait Time Heatmap",
+        hospital: "Hospital", dept: "Department", month: "Month",
+        generate: "Generate Heatmap",
+        caption: "Green = short wait · Yellow = moderate · Red = long wait",
+        bestTitle: "Best Times This Week",
+        loading: "Loading heatmap...",
+    },
+    ml: {
+        title: "വാരാന്ത കാത്തിരിക്കൽ ഹീറ്റ്മാപ്പ്",
+        hospital: "ആശുപത്രി", dept: "വിഭാഗം", month: "മാസം",
+        generate: "ഹീറ്റ്മാപ്പ് കാണൂ",
+        caption: "പച്ച = കുറഞ്ഞ കാത്തിരിപ്പ് · മഞ്ഞ = മിതമായത് · ചുവപ്പ് = കൂടുതൽ",
+        bestTitle: "ഈ ആഴ്ചയിലെ ഏറ്റവും നല്ല സമയം",
+        loading: "ലഭ്യമാക്കുന്നു...",
+    },
+    hi: {
+        title: "साप्ताहिक प्रतीक्षा हीटमैप",
+        hospital: "अस्पताल", dept: "विभाग", month: "महीना",
+        generate: "हीटमैप देखें",
+        caption: "हरा = कम प्रतीक्षा · पीला = मध्यम · लाल = अधिक",
+        bestTitle: "इस सप्ताह का सबसे अच्छा समय",
+        loading: "लोड हो रहा है...",
+    }
+};
+
+function setLang(lang) {
+    currentLang = lang;
+    const t = HT[lang];
+    ['en','ml','hi'].forEach(l => {
+        document.getElementById(`btn-${l}`).classList.toggle('active', l === lang);
+    });
+    document.getElementById("page-title").textContent  = t.title;
+    document.getElementById("lbl-hospital").textContent = t.hospital;
+    document.getElementById("lbl-dept").textContent    = t.dept;
+    document.getElementById("lbl-month").textContent   = t.month;
+    document.getElementById("btn-generate").textContent = t.generate;
+    document.getElementById("heatmap-caption").textContent = t.caption;
+}
+
+async function loadHeatmap() {
+    const hospital   = document.getElementById("hospital").value;
+    const department = document.getElementById("department").value;
+    const month      = parseInt(document.getElementById("month").value);
+    const btn        = document.getElementById("btn-generate");
+
+    btn.textContent = HT[currentLang].loading;
+    document.getElementById("heatmapDiv").innerHTML = 
+        `<div style="color:var(--muted)">${HT[currentLang].loading}</div>`;
+
+    try {
+        const res = await fetch("/heatmap_data", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                hospital, department, month,
+                temperature: 30, is_rainy: 0, is_festival: 0
+            })
+        });
+        const data = await res.json();
+        renderHeatmap(data, department, hospital);
+        showBestTimes(data);
+    } catch(e) {
+        document.getElementById("heatmapDiv").textContent = "Failed to load. Is server running?";
+    }
+
+    btn.textContent = HT[currentLang].generate;
+}
+
+function renderHeatmap(data, department, hospital) {
+    const trace = {
+        z: data.matrix,
+        x: data.hours,
+        y: data.days,
+        type: 'heatmap',
+        colorscale: [
+            [0.0, '#2ecc71'],
+            [0.5, '#f39c12'],
+            [1.0, '#e74c3c']
+        ],
+        colorbar: {
+            title: 'Wait (min)',
+            tickvals: [10, 30, 60, 90],
+            ticktext: ['10 min', '30 min', '60 min', '90 min'],
+            titlefont: { color: '#94a3b8' },
+            tickfont:  { color: '#94a3b8' }
+        },
+        hovertemplate: '<b>%{y}</b> at <b>%{x}</b><br>Wait: %{z} minutes<extra></extra>'
+    };
+
+    const layout = {
+        title: {
+            text: `${department} — ${hospital}`,
+            font: { color: '#f1f5f9', size: 14 }
+        },
+        paper_bgcolor: '#1e293b',
+        plot_bgcolor:  '#1e293b',
+        xaxis: { title: 'Hour', color: '#94a3b8', tickfont: { color: '#94a3b8' } },
+        yaxis: { title: 'Day',  color: '#94a3b8', tickfont: { color: '#94a3b8' } },
+        margin: { t: 50, b: 60, l: 100, r: 20 },
+        height: 420
+    };
+
+    Plotly.newPlot('heatmapDiv', [trace], layout, { responsive: true });
+}
+
+function showBestTimes(data) {
+    const matrix = data.matrix;
+    const days   = data.days;
+    const hours  = data.hours;
+
+    let cards = '';
+    days.forEach((day, i) => {
+        let minWait = 999, minIdx = 0;
+        matrix[i].forEach((val, j) => {
+            if (val < minWait) { minWait = val; minIdx = j; }
+        });
+        const color = minWait <= 20 ? '#2ecc71' : minWait <= 45 ? '#f39c12' : '#e74c3c';
+        cards += `
+            <div class="best-time-card">
+                <div class="bt-label">${day}</div>
+                <div class="bt-value" style="color:${color}">${hours[minIdx]}</div>
+                <div class="bt-wait">~${minWait} min</div>
+            </div>`;
+    });
+
+    document.getElementById("summaryArea").innerHTML = `
+        <div class="card" style="margin-top:24px">
+            <h2>${HT[currentLang].bestTitle}</h2>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px">
+                ${cards}
+            </div>
+        </div>`;
+}
+</script>
+</body>
+</html>

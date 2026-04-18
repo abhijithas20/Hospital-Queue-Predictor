@@ -6,35 +6,35 @@
     <title>Hospital OPD Wait Time Predictor</title>
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
+
 <body>
 
 <!-- Navbar -->
 <nav class="navbar">
     <div class="logo">OPD<span>Predict</span></div>
-    <button class="lang-toggle" onclick="toggleLang()" id="langBtn">മലയാളം</button>
+    <div class="lang-buttons">
+        <button class="lang-btn active" onclick="setLang('en')" id="btn-en">English</button>
+        <button class="lang-btn" onclick="setLang('ml')" id="btn-ml">മലയാളം</button>
+        <button class="lang-btn" onclick="setLang('hi')" id="btn-hi">हिन्दी</button>
+    </div>
 </nav>
 
 <!-- Hero -->
 <div class="hero">
-    <h1 data-en="Hospital OPD <span class='highlight'>Wait Time</span> Predictor"
-        data-ml="ആശുപത്രി OPD <span class='highlight'>കാത്തിരിക്കൽ സമയം</span> പ്രവചനം">
+    <h1 id="hero-title">
         Hospital OPD <span style="color:var(--primary)">Wait Time</span> Predictor
     </h1>
-    <p data-en="Predict waiting times at Indian government hospitals before you visit"
-       data-ml="സന്ദർശനത്തിന് മുമ്പ് ആശുപത്രി കാത്തിരിക്കൽ സമയം അറിയൂ">
-        Predict waiting times at Indian government hospitals before you visit
-    </p>
+    <p id="hero-sub">Predict waiting times at Indian government hospitals before you visit</p>
 </div>
 
 <!-- Main -->
 <div class="main-container">
-
-    <!-- Left Panel: Form -->
+    <!-- Left Panel -->
     <div class="card">
-        <h2 data-en="Select Visit Details" data-ml="സന്ദർശന വിവരങ്ങൾ">Select Visit Details</h2>
+        <h2 id="label-details">Select Visit Details</h2>
 
         <div class="form-group">
-            <label data-en="Hospital" data-ml="ആശുപത്രി">Hospital</label>
+            <label id="label-hospital">Hospital</label>
             <select id="hospital">
                 <option>General Hospital Kollam</option>
                 <option>District Hospital Ernakulam</option>
@@ -43,7 +43,7 @@
         </div>
 
         <div class="form-group">
-            <label data-en="Department" data-ml="വിഭാഗം">Department</label>
+            <label id="label-dept">Department</label>
             <select id="department">
                 <option>General OPD</option>
                 <option>Cardiology</option>
@@ -54,60 +54,57 @@
         </div>
 
         <div class="form-group">
-            <label data-en="Visit Date" data-ml="സന്ദർശന തീയതി">Visit Date</label>
+            <label id="label-date">Visit Date</label>
             <input type="date" id="visitDate">
         </div>
 
         <div class="form-group">
-            <label data-en="Arrival Time" data-ml="എത്തിച്ചേരുന്ന സമയം">Arrival Time</label>
+            <label id="label-time">Arrival Time</label>
             <input type="range" id="hourSlider" min="8" max="17" value="10"
                    oninput="updateSlider(this.value)">
             <div class="slider-label" id="sliderLabel">10:00 AM</div>
         </div>
 
-        <!-- Weather -->
-        <button class="btn-outline" onclick="fetchWeather()"
-                data-en="Fetch Live Weather" data-ml="തത്സമയ കാലാവസ്ഥ">
+        <button class="btn-outline" onclick="fetchWeather()" id="btn-weather">
             Fetch Live Weather
         </button>
 
         <div class="weather-box" id="weatherBox">
             <div>
-                <div style="font-size:0.8rem;color:var(--muted)" 
-                     data-en="Weather" data-ml="കാലാവസ്ഥ">Weather</div>
+                <div style="font-size:0.8rem;color:var(--muted)" id="label-weather">Weather</div>
                 <div id="weatherDesc">--</div>
             </div>
             <div class="temp" id="weatherTemp">--°C</div>
         </div>
 
-        <button class="btn-primary" onclick="predict()" 
-                style="margin-top:20px"
-                data-en="Predict Wait Time" data-ml="കാത്തിരിക്കൽ സമയം പ്രവചിക്കൂ">
+        <button class="btn-primary" onclick="predict()"
+                style="margin-top:20px" id="btn-predict">
             Predict Wait Time
         </button>
+
+        <a href="/heatmap" class="heatmap-link" 
+           style="margin-top:14px;display:block" id="link-heatmap">
+            View Weekly Heatmap →
+        </a>
     </div>
 
-    <!-- Right Panel: Results -->
+    <!-- Right Panel -->
     <div>
-        <!-- Result -->
         <div id="resultArea">
             <div class="placeholder">
-                <svg width="64" height="64" fill="none" stroke="currentColor" 
+                <svg width="64" height="64" fill="none" stroke="currentColor"
                      stroke-width="1.5" viewBox="0 0 24 24">
                     <circle cx="12" cy="12" r="10"/>
                     <polyline points="12 6 12 12 16 14"/>
                 </svg>
-                <span data-en="Fill in the details and click Predict" 
-                      data-ml="വിവരങ്ങൾ നൽകി പ്രവചിക്കൂ">
-                    Fill in the details and click Predict
-                </span>
+                <span id="placeholder-text">Fill in the details and click Predict</span>
             </div>
         </div>
     </div>
 </div>
 
 <footer>
-    Built by Abhijith AS &nbsp;|&nbsp; IZee Business School 
+    Built by Abhijith AS &nbsp;|&nbsp; IZee Business School
     &nbsp;|&nbsp; BCA Final Year Project 2026
 </footer>
 
