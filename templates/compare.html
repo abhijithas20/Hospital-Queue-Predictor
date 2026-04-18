@@ -141,7 +141,7 @@ async function loadData() {
     const names  = Object.keys(data);
     const r2s    = names.map(n => data[n].r2);
     const maes   = names.map(n => data[n].mae);
-    const colors = ['#2563EB','#94a3b8','#94a3b8'];
+    const colors = names.map(n => n === "Random Forest" ? '#2563EB' : '#94a3b8');
 
     // Score cards
     document.getElementById("scoreCards").innerHTML = names.map((n, i) => `
@@ -153,8 +153,7 @@ async function loadData() {
             <div style="font-size:0.8rem;color:var(--muted)">R² Score</div>
             <div style="margin-top:8px;font-size:1rem;font-weight:600;
                  color:${i===0?'#2ecc71':'var(--muted)'}">~${maes[i]} min MAE</div>
-            ${i===0?'<div style="margin-top:8px;background:var(--primary);color:white;'+
-              'padding:4px 10px;border-radius:12px;font-size:0.75rem">✅ CHOSEN</div>':''}
+            ${n==="Random Forest"?'<div style="margin-top:8px;background:var(--primary);color:white;padding:4px 10px;border-radius:12px;font-size:0.75rem">✅ CHOSEN</div>':''}
         </div>`).join('');
 
     // R² Chart
