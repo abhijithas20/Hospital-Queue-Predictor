@@ -138,7 +138,8 @@ async function loadData() {
     const res  = await fetch("/comparison_data");
     const data = await res.json();
 
-    const names  = Object.keys(data);
+    const preferred = ["Random Forest", "Decision Tree", "Linear Regression"];
+    const names = preferred.filter(n => data[n]);
     const r2s    = names.map(n => data[n].r2);
     const maes   = names.map(n => data[n].mae);
     const colors = names.map(n => n === "Random Forest" ? '#2563EB' : '#94a3b8');
