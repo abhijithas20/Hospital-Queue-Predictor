@@ -159,9 +159,6 @@ async function loadHeatmap() {
     const btn        = document.getElementById("btn-generate");
 
     btn.textContent = HT[currentLang].loading;
-    document.getElementById("heatmapDiv").innerHTML = 
-        `<div style="color:var(--muted)">${HT[currentLang].loading}</div>`;
-
     try {
         const res = await fetch("/heatmap_data", {
             method: "POST",
@@ -211,7 +208,7 @@ function renderHeatmap(data, department, hospital) {
         plot_bgcolor:  '#1e293b',
         xaxis: { title: 'Hour', color: '#94a3b8', tickfont: { color: '#94a3b8' } },
         yaxis: { title: 'Day',  color: '#94a3b8', tickfont: { color: '#94a3b8' } },
-        margin: { t: 50, b: 80, l: 10, r: 10 },
+        margin: { t: 50, b: 80, l: 90, r: 10 },
         height: 420,
         autosize: true
     };
