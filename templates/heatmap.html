@@ -94,8 +94,7 @@
                 <span style="color:#e74c3c">● High</span>
             </div>
         </div>
-        <div id="heatmapDiv" style="min-height:400px;display:flex;align-items:center;
-             justify-content:center;color:var(--muted)">
+        <div id="heatmapDiv" style="min-height:400px;width:100%;color:var(--muted)">
             Select filters and click Generate Heatmap
         </div>
     </div>
@@ -212,7 +211,7 @@ function renderHeatmap(data, department, hospital) {
         plot_bgcolor:  '#1e293b',
         xaxis: { title: 'Hour', color: '#94a3b8', tickfont: { color: '#94a3b8' } },
         yaxis: { title: 'Day',  color: '#94a3b8', tickfont: { color: '#94a3b8' } },
-        margin: { t: 50, b: 80, l: 120, r: 40 },
+        margin: { t: 50, b: 80, l: 10, r: 10 },
         height: 420,
         autosize: true
     };
