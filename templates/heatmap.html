@@ -213,12 +213,11 @@ function renderHeatmap(data, department, hospital) {
         xaxis: { title: 'Hour', color: '#94a3b8', tickfont: { color: '#94a3b8' } },
         yaxis: { title: 'Day',  color: '#94a3b8', tickfont: { color: '#94a3b8' } },
         margin: { t: 50, b: 80, l: 120, r: 40 },
-        autosize: true,
-        width: null,
-        height: 420
+        height: 420,
+        autosize: true
     };
 
-    Plotly.newPlot('heatmapDiv', [trace], layout, { responsive: true });
+    Plotly.newPlot('heatmapDiv', [trace], layout, { responsive: true, displayModeBar: false });
 }
 
 function showBestTimes(data) {
