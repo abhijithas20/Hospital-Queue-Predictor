@@ -148,6 +148,8 @@ async function fetchWeather() {
         weatherData = await res.json();
         document.getElementById("weatherTemp").textContent = `${weatherData.temperature}°C`;
         document.getElementById("weatherDesc").textContent = weatherData.weather_description;
+        document.getElementById("weatherRain").textContent = 
+           weatherData.is_rainy ? "🌧️ Rainy — wait times may be higher" : "☀️ Clear conditions";
         btn.textContent = T[currentLang].btnWeather;
     } catch (e) {
         btn.textContent = "Failed — using defaults";
